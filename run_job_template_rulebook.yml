@@ -1,0 +1,16 @@
+---
+- name: Execute Job Template from Controller
+  hosts: localhost
+  sources:
+    - name: listen for manual trigger
+      ansible.eda.generic:
+        payload:
+          event_type: trigger_job
+
+  rules:
+    - name: Run system check when trigger received
+      condition: event.event_type == "trigger_job"
+      action:
+        run_job_template:
+          name: "Run System Check"
+          organization: "Default"
